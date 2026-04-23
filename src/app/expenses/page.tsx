@@ -1,13 +1,14 @@
 "use client"
 
-
+import { useRouter } from "next/navigation";
 import { useExpenses } from "@/context/ExpensesContext";
 
 export default function ExpensesPage() {
 
+    const router = useRouter();
     const { expenses } = useExpenses();
 
-    console.log("Prubea contexto...", expenses)
+    console.log("Prubea contexto...", expenses);
 
     return (
         <>
@@ -19,7 +20,10 @@ export default function ExpensesPage() {
                 <aside>
                     <h2 className="pb-8">Gastos por categoría</h2>
                     {expenses.map((expense) => (
-                        <div key={expense.id} className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between rounded border border-gray-200 bg-white mb-4 p-4">
+                        <div
+                            onClick={() => router.push(`/edit/${expense.id}`)}
+                            key={expense.id}
+                            className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between rounded border border-gray-200 bg-white mb-4 p-4">
                             <div>
                                 <h3 className="font-medium text-black">{expense.description}</h3>
                                 <p className="mt-1 text-sm text-gray-600">
@@ -38,7 +42,6 @@ export default function ExpensesPage() {
         </>
     )
 }
-
 
 
 
