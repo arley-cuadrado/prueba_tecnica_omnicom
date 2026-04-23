@@ -1,4 +1,13 @@
+"use client"
+
+import { useExpenses } from "@/context/ExpensesContext"
+
 export default function ExpensesPage() {
+
+    const { expenses } = useExpenses()
+
+    console.log("Prubea contexto...", expenses)
+
     return (
         <>
             <header className="pb-8">
