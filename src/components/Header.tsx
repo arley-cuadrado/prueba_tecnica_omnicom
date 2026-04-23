@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Header() {
     return (
         <>
-            <header className="flex w-full max-w-3xl flex-row pt-4 pb-4 gap-10 justify-between">
+            <header className="flex w-full max-w-5xl flex-row pt-4 pb-4 gap-10 justify-between">
                 <div>
                     <Link href="/">
                         Expenses Omnicom
@@ -14,7 +14,7 @@ export function Header() {
                         Gastos
                     </Link>
                     <nav>
-                        <Link href="/dashboard">
+                        <Link href="/">
                             Dashboard
                         </Link>
                     </nav>
