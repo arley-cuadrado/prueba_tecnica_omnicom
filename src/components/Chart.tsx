@@ -1,7 +1,5 @@
 "use client"
 
-import { useExpenses } from "@/context/ExpensesContext";
-
 export function Chart() {
 
     const charData = [
@@ -12,11 +10,6 @@ export function Chart() {
     ]
 
     const chartMaxValue = 100;
-
-
-    const expense = useExpenses();
-
-    console.log('EXPENSESSS ', expense)
 
     return (
         <>
