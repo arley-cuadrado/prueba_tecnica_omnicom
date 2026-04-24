@@ -41,6 +41,8 @@ export default function New({ expenseId }: NewPageProps) {
         name: "category",
         value: currentExpense?.category ?? expense_categories[0].value,
     });
+
+    // Valores iniciales formulario
     const [expense, setExpense] = useState<ExpenseFormValue>({
         description: currentExpense?.description ?? "",
         monto: currentExpense ? String(currentExpense.amount) : "",
