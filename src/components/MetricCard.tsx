@@ -15,7 +15,15 @@ export function MetricCard({ label, value }: MetricCardProps) {
         (total, expense) => total + expense.amount,
         0
     );
-    const metricValue = label === "Total gastado este mes" ? totalSpentThisMonth : value;
+
+    // Promedio gasto dia
+    const averageDailyExpenses = totalSpentThisMonth / (expenses.length || 1);
+
+    const metricValue = label === "Total gastado este mes"
+        ? totalSpentThisMonth
+        : label === "Promedio diario de gastos"
+            ? averageDailyExpenses
+            : value;
 
 
     return (
