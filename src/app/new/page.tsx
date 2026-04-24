@@ -94,8 +94,8 @@ export default function New({ expenseId }: NewPageProps) {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
+        <><section className="w-full flex justify-center items-center">
+            <form onSubmit={handleSubmit} className="w-100 flex flex-col">
                 <div className="pb-4">
                     <label htmlFor="">Descripción</label>
                     <input
@@ -148,6 +148,7 @@ export default function New({ expenseId }: NewPageProps) {
                     </button>
                 </div>
             </form>
+        </section>
         </>
     )
 }

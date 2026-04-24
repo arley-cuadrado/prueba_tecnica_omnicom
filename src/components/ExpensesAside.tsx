@@ -7,10 +7,10 @@ export default function ExpensesAside() {
 
     return (
         <>
-            <aside>
+            <aside className="w-full">
                 <h2 className="pb-8">Gastos por categoría</h2>
                 {expenses.map((expense) => (
-                    <div key={expense.id} className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div key={expense.id} className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between rounded border border-gray-200 bg-white w-auto p-4 mb-4">
                         <div>
                             <h3 className="font-medium text-black">{expense.description}</h3>
                             <p className="mt-1 text-sm text-gray-600">

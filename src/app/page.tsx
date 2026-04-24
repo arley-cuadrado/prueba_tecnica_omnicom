@@ -13,18 +13,18 @@ export default function Home() {
 
   return (
     <>
-      <header className="pb-8">
+      <header className="pb-8 w-full">
         <h2 className="mt-2 text-2xl font-semibold text-black">Dashboard</h2>
         <p>Resumen de gastos personales.</p>
       </header>
-      <section className="flex flex-row gap-4">
+      <section className="flex flex-row gap-4 w-full justify-between overflow-x-auto">
         {
           metricCard.map((item) => (
             <MetricCard key={item.id} label={item.label} value={item.value} />
           ))
         }
       </section>
-      <section className="flex flex-row gap-16 pt-8">
+      <section className="flex flex-col md:flex-row lg:flex-row gap-16 pt-8 w-full">
         <Chart />
         <ExpensesAside />
       </section>

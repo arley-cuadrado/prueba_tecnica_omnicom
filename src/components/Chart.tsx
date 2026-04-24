@@ -25,7 +25,7 @@ export function Chart() {
         <>
             <section>
                 <h2 className="pb-8">Gastos por categoría</h2>
-                <div className="space-y-4 w-100">
+                <div className="space-y-4 w-auto lg:w-100">
                     {chartData.map((item) => (
                         <div key={item.category}>
                             <div className="mb-1 flex justify-between gap-4 text-sm">
