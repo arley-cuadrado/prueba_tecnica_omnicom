@@ -21,9 +21,9 @@ type NewPageProps = {
 };
 
 export default function New({ expenseId }: NewPageProps) {
+
     const { createExpense, expenses, updateExpense } = useExpenses();
     const router = useRouter();
-
     const expense_categories = [
         { id: 0, value: 'comida', label: 'Comida' },
         { id: 1, value: 'entretenimiento', label: 'Entretenimiento' },
@@ -37,6 +37,7 @@ export default function New({ expenseId }: NewPageProps) {
         ? expenses.find((item) => item.id === expenseId)
         : undefined;
 
+    // states
     const [selected, setSelected] = useState<SelectedCategory>({
         name: "category",
         value: currentExpense?.category ?? expense_categories[0].value,
@@ -50,7 +51,13 @@ export default function New({ expenseId }: NewPageProps) {
         category: currentExpense?.category ?? expense_categories[0].value,
     });
 
+    // states error
+    const [error, setError] = useState("");
+
+
+    // onChanges
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setError("");
         setSelected({ name: e.target.name, value: e.target.value });
         setExpense({
             ...expense,
@@ -61,17 +68,30 @@ export default function New({ expenseId }: NewPageProps) {
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        setError("");
 
         setExpense({
             ...expense,
             [name]: value,
         });
-
-        console.log(e.target.name, e.target.value)
+        //console.log(e.target.name, e.target.value)
     }
 
+    // onSubmit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!expense.description || !expense.monto || !expense.fecha) {
+            setError("Completa todos los campos.");
+            return;
+        }
+
+        if (Number(expense.monto) <= 0) {
+            setError("El monto debe ser mayor a 0.");
+            return;
+        }
+
+        // body inputs
         const expenseData = {
             description: expense.description,
             category: expense.category,
@@ -96,9 +116,13 @@ export default function New({ expenseId }: NewPageProps) {
     return (
         <><section className="w-full flex justify-center items-center">
             <form onSubmit={handleSubmit} className="w-100 flex flex-col">
+                {error ? (
+                    <p className="pb-4 text-sm text-red-600">{error}</p>
+                ) : null}
                 <div className="pb-4">
                     <label htmlFor="">Descripción</label>
                     <input
+                        required
                         onChange={handleInput}
                         value={expense.description}
                         name="description"
@@ -109,6 +133,8 @@ export default function New({ expenseId }: NewPageProps) {
                     <input
                         id="monto"
                         type="number"
+                        min="1"
+                        required
                         inputMode="decimal"
                         onChange={handleInput}
                         value={expense.monto}
@@ -129,6 +155,8 @@ export default function New({ expenseId }: NewPageProps) {
                 <div className="pb-4">
                     <label htmlFor="">Fecha</label>
                     <input
+                        type="date"
+                        required
                         onChange={handleInput}
                         name="fecha"
                         value={expense.fecha}
