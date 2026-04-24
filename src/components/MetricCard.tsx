@@ -4,7 +4,7 @@ import { useExpenses } from "@/context/ExpensesContext";
 
 type MetricCardProps = {
     label: string;
-    value: number;
+    value: number | string;
 };
 
 export function MetricCard({ label, value }: MetricCardProps) {
@@ -19,11 +19,21 @@ export function MetricCard({ label, value }: MetricCardProps) {
     // Promedio gasto dia
     const averageDailyExpenses = totalSpentThisMonth / (expenses.length || 1);
 
+    // Categoria mayor gasto
+    const topCategory = [...expenses].sort((a, b) => b.amount - a.amount)[0]?.category || "Sin categoria";
+
+    // Total transacciones
+    const monthlyTransactions = expenses.length;
+
     const metricValue = label === "Total gastado este mes"
         ? totalSpentThisMonth
         : label === "Promedio diario de gastos"
             ? averageDailyExpenses
-            : value;
+            : label === "Categoria con mayor gasto"
+                ? topCategory
+                : label === "Transacciones del mes"
+                    ? monthlyTransactions
+                    : value;
 
 
     return (
