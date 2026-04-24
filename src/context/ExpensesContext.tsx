@@ -11,6 +11,8 @@ export type Expense = {
     amount: number;
 };
 
+export type ExpenseInput = Omit<Expense, "id">;
+
 export type ExpensesContextValue = {
     expenses: Expense[];
     createExpense: (
@@ -20,12 +22,14 @@ export type ExpensesContextValue = {
         amount: number
     ) => void;
     deleteExpense: (id: string) => void;
+    updateExpense: (id: string, updatedExpense: ExpenseInput) => void;
 };
 
 export const ExpensesContext = createContext<ExpensesContextValue>({
     expenses: [],
     createExpense: () => { },
     deleteExpense: () => { },
+    updateExpense: () => { },
 });
 
 type ExpensesProviderProps = {
@@ -67,14 +71,26 @@ export function ExpensesProvider({ children }: ExpensesProviderProps) {
 
     //Eliminar gasto
     const deleteExpense = (id: string): void => {
-        setExpenses(expenses.filter((expense) => expense.id !== id));
+        setExpenses((currentExpenses) =>
+            currentExpenses.filter((expense) => expense.id !== id)
+        );
+    };
+
+    //Editar gasto
+    const updateExpense = (id: string, updatedExpense: ExpenseInput): void => {
+        setExpenses((currentExpenses) =>
+            currentExpenses.map((expense) =>
+                expense.id === id ? { ...expense, ...updatedExpense } : expense
+            )
+        );
     };
 
     return (
         <ExpensesContext.Provider value={{
             expenses,
             createExpense,
-            deleteExpense
+            deleteExpense,
+            updateExpense
         }}>
             {children}
         </ExpensesContext.Provider>

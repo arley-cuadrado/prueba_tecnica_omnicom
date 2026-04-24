@@ -5,12 +5,8 @@ import { useRouter } from "next/navigation";
 import { useExpenses } from "@/context/ExpensesContext";
 
 export default function ExpensesPage() {
-
     const router = useRouter();
-    const { expenses } = useExpenses();
-    const { deleteExpense } = useExpenses();
-
-    console.log("Prubea contexto...", expenses);
+    const { expenses, deleteExpense } = useExpenses();
 
     return (
         <>
@@ -56,7 +52,6 @@ export default function ExpensesPage() {
         </>
     )
 }
-
 
 
 

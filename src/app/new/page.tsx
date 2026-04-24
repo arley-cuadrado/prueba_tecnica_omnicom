@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link";
-
 import { useState } from "react";
 import { useExpenses } from "@/context/ExpensesContext";
 import { useRouter } from "next/navigation";
@@ -18,10 +16,13 @@ type ExpenseFormValue = {
     category: string;
 };
 
-export default function New() {
+type NewPageProps = {
+    expenseId?: string;
+};
 
-    const { createExpense } = useExpenses()
-    const router = useRouter()
+export default function New({ expenseId }: NewPageProps) {
+    const { createExpense, expenses, updateExpense } = useExpenses();
+    const router = useRouter();
 
     const expense_categories = [
         { id: 0, value: 'comida', label: 'Comida' },
@@ -32,15 +33,19 @@ export default function New() {
         { id: 5, value: 'otros', label: 'Otros' }
     ] as const;
 
+    const currentExpense = expenseId
+        ? expenses.find((item) => item.id === expenseId)
+        : undefined;
+
     const [selected, setSelected] = useState<SelectedCategory>({
         name: "category",
-        value: expense_categories[0].value,
+        value: currentExpense?.category ?? expense_categories[0].value,
     });
     const [expense, setExpense] = useState<ExpenseFormValue>({
-        description: "",
-        monto: "",
-        fecha: "",
-        category: expense_categories[0].value,
+        description: currentExpense?.description ?? "",
+        monto: currentExpense ? String(currentExpense.amount) : "",
+        fecha: currentExpense?.date ?? "",
+        category: currentExpense?.category ?? expense_categories[0].value,
     });
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,15 +70,26 @@ export default function New() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createExpense(
-            expense.description,
-            expense.category,
-            expense.fecha,
-            Number(expense.monto)
-        );
-        console.log(expense)
-        router.push('/')
-    }
+        const expenseData = {
+            description: expense.description,
+            category: expense.category,
+            date: expense.fecha,
+            amount: Number(expense.monto),
+        };
+
+        if (expenseId) {
+            updateExpense(expenseId, expenseData);
+        } else {
+            createExpense(
+                expense.description,
+                expense.category,
+                expense.fecha,
+                Number(expense.monto)
+            );
+        }
+
+        router.push("/expenses");
+    };
 
     return (
         <>
@@ -118,10 +134,13 @@ export default function New() {
                 </div>
                 <div className="pt-8 pb-8 flex flex-row gap-16">
                     <button
+                        type="submit"
                         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full"
                     >Guardar
                     </button>
                     <button
+                        type="button"
+                        onClick={() => router.push("/expenses")}
                         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full"
                     >Cancelar
                     </button>
