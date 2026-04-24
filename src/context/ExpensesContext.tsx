@@ -19,18 +19,20 @@ export type ExpensesContextValue = {
         date: string,
         amount: number
     ) => void;
+    deleteExpense: (id: string) => void;
 };
 
 export const ExpensesContext = createContext<ExpensesContextValue>({
     expenses: [],
     createExpense: () => { },
+    deleteExpense: () => { },
 });
 
 type ExpensesProviderProps = {
     children: ReactNode;
 };
 
-// hook para expenses
+// Hook para expenses
 export const useExpenses = () => {
     return useContext(ExpensesContext);
 };
@@ -44,6 +46,7 @@ export function ExpensesProvider({ children }: ExpensesProviderProps) {
         { id: "4", description: "Cine", category: "Entretenimiento", date: "12 de abr de 2026", amount: 42000 }
     ]);
 
+    // Crear nuevo gasto
     const createExpense = (
         description: string,
         category: string,
@@ -62,12 +65,16 @@ export function ExpensesProvider({ children }: ExpensesProviderProps) {
         ]);
     };
 
-
+    //Eliminar gasto
+    const deleteExpense = (id: string): void => {
+        setExpenses(expenses.filter((expense) => expense.id !== id));
+    };
 
     return (
         <ExpensesContext.Provider value={{
             expenses,
-            createExpense
+            createExpense,
+            deleteExpense
         }}>
             {children}
         </ExpensesContext.Provider>

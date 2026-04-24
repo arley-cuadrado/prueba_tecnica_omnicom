@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link";
+
 import { useState } from "react";
 import { useExpenses } from "@/context/ExpensesContext";
 import { useRouter } from "next/navigation";
@@ -114,7 +116,16 @@ export default function New() {
                         value={expense.fecha}
                         className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                 </div>
-                <button>Guardar</button>
+                <div className="pt-8 pb-8 flex flex-row gap-16">
+                    <button
+                        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full"
+                    >Guardar
+                    </button>
+                    <button
+                        className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full"
+                    >Cancelar
+                    </button>
+                </div>
             </form>
         </>
     )
