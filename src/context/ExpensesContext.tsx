@@ -42,19 +42,20 @@ export const useExpenses = () => {
 };
 
 export function ExpensesProvider({ children }: ExpensesProviderProps) {
+    // expense global window    
     const [expenses, setExpenses] = useState<Expense[]>(() => {
         if (typeof window === "undefined") {
             return [];
         }
 
+        // localstorage
         const item = window.localStorage.getItem("expenses");
-
         if (!item) {
             return [];
         }
 
         const savedExpenses = JSON.parse(item) as Expense[];
-        console.log("LOCALSTORAGE SI SENIOR ", savedExpenses);
+        // console.log("LOCALSTORAGE ", savedExpenses);
 
         return savedExpenses;
     });
