@@ -21,7 +21,7 @@ export default function ExpensesPage() {
                 <aside>
                     <h2 className="pb-8">Gastos por categoría</h2>
                     {expenses.map((expense) => (
-                        <div
+                        <section
                             key={expense.id}
                             className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between rounded border border-gray-200 bg-white mb-4 p-4">
                             <div>
@@ -44,7 +44,7 @@ export default function ExpensesPage() {
                             <div className="flex flex-col">
                                 <p className="text-lg font-semibold text-black text-right pb-4">{expense.amount}</p>
                             </div>
-                        </div>
+                        </section>
                     ))
                     }
                 </aside>

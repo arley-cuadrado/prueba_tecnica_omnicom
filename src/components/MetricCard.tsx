@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { useExpenses } from "@/context/ExpensesContext";
 
 type MetricCardProps = {
@@ -9,6 +10,15 @@ type MetricCardProps = {
 
 export function MetricCard({ label, value }: MetricCardProps) {
     const { expenses } = useExpenses();
+
+    // Hydration
+    const [hasMounted, setHasMounted] = useState(false);
+    useEffect(() => {
+        queueMicrotask(() => {
+            setHasMounted(true);
+        });
+    }, []);
+    //-----------
 
     // Total gasto del mes
     const totalSpentThisMonth = expenses.reduce(
@@ -35,12 +45,15 @@ export function MetricCard({ label, value }: MetricCardProps) {
                     ? monthlyTransactions
                     : value;
 
+    //-----------
+    const displayValue = hasMounted ? metricValue : value;
+
 
     return (
         <>
             <article className="rounded border border-gray-200 bg-white w-full p-4">
                 <p className="text-sm text-gray-600">{label}</p>
-                <p className="mt-2 text-2xl font-semibold text-black">{metricValue}</p>
+                <p className="mt-2 text-2xl font-semibold text-black">{displayValue}</p>
             </article>
         </>
     );

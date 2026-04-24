@@ -3,6 +3,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { v4 as uuid } from "uuid";
 
+// Hook para expenses
+export const useExpenses = () => {
+    return useContext(ExpensesContext);
+};
+
 export type Expense = {
     id: string;
     description: string;
@@ -32,13 +37,9 @@ export const ExpensesContext = createContext<ExpensesContextValue>({
     updateExpense: () => { },
 });
 
+// props recibidas ExpensesProvider
 type ExpensesProviderProps = {
     children: ReactNode;
-};
-
-// Hook para expenses
-export const useExpenses = () => {
-    return useContext(ExpensesContext);
 };
 
 export function ExpensesProvider({ children }: ExpensesProviderProps) {
