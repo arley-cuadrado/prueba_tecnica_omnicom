@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react";
+import { useExpenses } from "@/context/ExpensesContext";
+import { useRouter } from "next/navigation";
 
 type SelectedCategory = {
     name: string;
@@ -15,6 +17,10 @@ type ExpenseFormValue = {
 };
 
 export default function New() {
+
+    const { createExpense } = useExpenses()
+    const router = useRouter()
+
     const expense_categories = [
         { id: 0, value: 'comida', label: 'Comida' },
         { id: 1, value: 'entretenimiento', label: 'Entretenimiento' },
@@ -45,16 +51,26 @@ export default function New() {
     };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
         setExpense({
             ...expense,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
+
         console.log(e.target.name, e.target.value)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        createExpense(
+            expense.description,
+            expense.category,
+            expense.fecha,
+            Number(expense.monto)
+        );
         console.log(expense)
+        router.push('/')
     }
 
     return (
@@ -69,8 +85,11 @@ export default function New() {
                         className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                 </div>
                 <div className="pb-4">
-                    <label htmlFor="">Monto</label>
+                    <label htmlFor="monto">Monto</label>
                     <input
+                        id="monto"
+                        type="number"
+                        inputMode="decimal"
                         onChange={handleInput}
                         value={expense.monto}
                         name="monto"

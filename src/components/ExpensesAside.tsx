@@ -17,7 +17,9 @@ export default function ExpensesAside() {
                                 {expense.category} · {expense.date}
                             </p>
                         </div>
-                        <p className="text-lg font-semibold text-black">{expense.amount}</p>
+                        <p className="text-lg font-semibold text-black">
+                            {Number.isNaN(expense.amount) ? "0" : String(expense.amount)}
+                        </p>
                     </div>
                 ))
                 }
